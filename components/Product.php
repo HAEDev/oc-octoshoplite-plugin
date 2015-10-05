@@ -6,6 +6,11 @@ use Feegleweb\OctoshopLite\Models\Product as ShopProduct;
 
 class Product extends ComponentBase
 {
+    private $slug;
+    private $basket;
+    private $mainImageSize;
+    private $subImageSize;
+    private $product;
 
     public function componentDetails()
     {

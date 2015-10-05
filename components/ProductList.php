@@ -7,6 +7,10 @@ use Feegleweb\OctoshopLite\Models\Product as ShopProduct;
 
 class ProductList extends ComponentBase
 {
+    private $basket;
+    private $productPage;
+    private $category;
+    private $products;
 
     public function componentDetails()
     {
