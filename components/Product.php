@@ -11,6 +11,7 @@ class Product extends ComponentBase
     private $mainImageSize;
     private $subImageSize;
     private $product;
+    private $category;
 
     public function componentDetails()
     {
@@ -38,6 +39,9 @@ class Product extends ComponentBase
             'subImageSize' => [
                 'title' => 'Thumbnail Size',
             ],
+            'category' => [
+                'title' => 'Category',
+            ]
         ];
     }
 
@@ -54,12 +58,25 @@ class Product extends ComponentBase
         $this->basket = $this->page['basket'] = $this->property('basket');
         $this->mainImageSize = $this->page['mainImageSize'] = $this->property('mainImageSize');
         $this->subImageSize = $this->page['subImageSize'] = $this->property('subImageSize');
+        $this->category = $this->property('category');
     }
 
     public function loadProduct()
     {
-        return ShopProduct::whereSlug($this->slug)->with(['images' => function ($query) {
+        $product = ShopProduct::whereSlug($this->slug)->with(['images' => function ($query) {
             $query->orderBy('sort_order', 'asc');
         }])->first();
+        
+        if (empty($this->category)) {
+            return $product;
+        }
+        
+        // check category
+        foreach ($product->categories as $category) {
+            if (strcasecmp($category->slug, $this->category) == 0) {
+                return $product;
+            }
+        }
+        return null;
     }
 }
