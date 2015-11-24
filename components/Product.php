@@ -67,7 +67,7 @@ class Product extends ComponentBase
             $query->orderBy('sort_order', 'asc');
         }])->first();
         
-        if (empty($this->category)) {
+        if (!$product || empty($this->category)) {
             return $product;
         }
         
